@@ -35,6 +35,34 @@ Object {
         },
       },
     },
+    "cdk8s-plus-32": Object {
+      "submodules": Object {
+        "cdk8s-plus-32.k8s": Object {},
+      },
+      "targets": Object {
+        "dotnet": Object {
+          "namespace": "Org.Cdk8s.Plus32",
+          "packageId": "Org.Cdk8s.Plus32",
+        },
+        "go": Object {
+          "moduleName": "github.com/cdk8s-team/cdk8s-plus-go",
+        },
+        "java": Object {
+          "maven": Object {
+            "artifactId": "cdk8s-plus-32",
+            "groupId": "org.cdk8s",
+          },
+          "package": "org.cdk8s.plus32",
+        },
+        "js": Object {
+          "npm": "cdk8s-plus-32",
+        },
+        "python": Object {
+          "distName": "cdk8s-plus-32",
+          "module": "cdk8s_plus_32",
+        },
+      },
+    },
     "constructs": Object {
       "targets": Object {
         "dotnet": Object {

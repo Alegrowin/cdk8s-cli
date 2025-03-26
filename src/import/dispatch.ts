@@ -3,6 +3,7 @@ import { ImportCustomResourceDefinition } from './crd';
 import { matchCrdsDevUrl } from './crds-dev';
 import { ImportHelm } from './helm';
 import { ImportKubernetesApi } from './k8s';
+import { ImportK8sManifest } from './manifest';
 import { ImportSpec, addImportToConfig } from '../config';
 import { PREFIX_DELIM } from '../util';
 
@@ -40,6 +41,17 @@ export async function matchImporter(importSpec: ImportSpec, argv: any): Promise<
 
   if (prefix === 'helm') {
     return ImportHelm.fromSpec(importSpec);
+  }
+
+  // Check if it's a k8s manifest import
+  // This is indicated by the 'k8s-manifest:' prefix or by a .yaml/.yml/.json file
+  if (prefix === 'k8s-manifest') {
+    // Extract the actual source from after the prefix
+    const actualSource = importSpec.source.substring('k8s-manifest:'.length);
+    return ImportK8sManifest.fromSpec({
+      ...importSpec,
+      source: actualSource,
+    });
   }
 
   // now check if its a crds.dev import

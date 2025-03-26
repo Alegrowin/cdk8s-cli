@@ -167,6 +167,29 @@ export async function download(url: string): Promise<string> {
   const proto = parse(url).protocol;
 
   if (!proto || proto === 'file:') {
+    try {
+      // Check if the path is a directory
+      const stats = await fs.stat(url);
+      if (stats.isDirectory()) {
+        // Find all YAML and JSON files in the directory
+        const files = await findManifests(url);
+        if (files.length === 0) {
+          throw new Error(`No YAML or JSON files found in directory: ${url}`);
+        }
+
+        // Read and concatenate all files with YAML document separators
+        const contents = await Promise.all(files.map((file: string) => fs.readFile(file, 'utf-8')));
+        return contents.join('\n---\n');
+      }
+    } catch (e) {
+      // If stat fails, it might be a non-existent file or other error
+      // Let readFile handle it to maintain original error behavior
+      if ((e as NodeJS.ErrnoException).code !== 'ENOENT') {
+        throw e;
+      }
+    }
+
+    // If not a directory or stat failed with ENOENT, try to read as a file
     return fs.readFile(url, 'utf-8');
   }
 

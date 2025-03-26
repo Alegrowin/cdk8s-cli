@@ -31,10 +31,26 @@ export interface ImportOptions {
    * k8s imports will add a "Kube" prefix by default.
    */
   readonly classNamePrefix?: string;
+
+  /**
+   * Allow generation of code for unsupported APIs.
+   * When disabled, unsupported resources will be logged.
+   *
+   * @default false
+   */
+  readonly unsupported?: boolean;
 }
 
 export interface GenerateOptions {
   readonly classNamePrefix?: string;
+
+  /**
+   * Allow generation of code for unsupported APIs.
+   * When disabled, unsupported resources will be logged.
+   *
+   * @default false
+   */
+  readonly unsupported?: boolean;
 }
 
 export abstract class ImportBase {
@@ -80,6 +96,7 @@ export abstract class ImportBase {
       code.indentation = 2;
       await this.generateTypeScript(code, module.origName, {
         classNamePrefix: options.classNamePrefix,
+        unsupported: options.unsupported,
       });
 
       code.closeFile(fileName);
@@ -97,7 +114,7 @@ export abstract class ImportBase {
           await code.save(staging);
 
           // these are the module dependencies we compile against
-          const deps = ['@types/node', 'constructs', 'cdk8s'];
+          const deps = ['@types/node', 'constructs', 'cdk8s', 'cdk8s-plus-32'];
 
           const opts: srcmak.Options = {
             entrypoint: fileName,

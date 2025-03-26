@@ -35,6 +35,34 @@ Object {
         },
       },
     },
+    "cdk8s-plus-32": Object {
+      "submodules": Object {
+        "cdk8s-plus-32.k8s": Object {},
+      },
+      "targets": Object {
+        "dotnet": Object {
+          "namespace": "Org.Cdk8s.Plus32",
+          "packageId": "Org.Cdk8s.Plus32",
+        },
+        "go": Object {
+          "moduleName": "github.com/cdk8s-team/cdk8s-plus-go",
+        },
+        "java": Object {
+          "maven": Object {
+            "artifactId": "cdk8s-plus-32",
+            "groupId": "org.cdk8s",
+          },
+          "package": "org.cdk8s.plus32",
+        },
+        "js": Object {
+          "npm": "cdk8s-plus-32",
+        },
+        "python": Object {
+          "distName": "cdk8s-plus-32",
+          "module": "cdk8s_plus_32",
+        },
+      },
+    },
     "constructs": Object {
       "targets": Object {
         "dotnet": Object {
@@ -2540,6 +2568,7 @@ def check_type(argname: str, value: object, expected_type: typing.Any) -> typing
                 typeguard.check_type(value=value, expected_type=expected_type, collection_check_strategy=typeguard.CollectionCheckStrategy.ALL_ITEMS) # type:ignore
 
 import cdk8s._jsii
+import cdk8s_plus_32._jsii
 import constructs._jsii
 
 __jsii_assembly__ = jsii.JSIIAssembly.load(
@@ -2589,6 +2618,34 @@ Object {
         "python": Object {
           "distName": "cdk8s",
           "module": "cdk8s",
+        },
+      },
+    },
+    "cdk8s-plus-32": Object {
+      "submodules": Object {
+        "cdk8s-plus-32.k8s": Object {},
+      },
+      "targets": Object {
+        "dotnet": Object {
+          "namespace": "Org.Cdk8s.Plus32",
+          "packageId": "Org.Cdk8s.Plus32",
+        },
+        "go": Object {
+          "moduleName": "github.com/cdk8s-team/cdk8s-plus-go",
+        },
+        "java": Object {
+          "maven": Object {
+            "artifactId": "cdk8s-plus-32",
+            "groupId": "org.cdk8s",
+          },
+          "package": "org.cdk8s.plus32",
+        },
+        "js": Object {
+          "npm": "cdk8s-plus-32",
+        },
+        "python": Object {
+          "distName": "cdk8s-plus-32",
+          "module": "cdk8s_plus_32",
         },
       },
     },
@@ -4205,6 +4262,34 @@ Object {
         },
       },
     },
+    "cdk8s-plus-32": Object {
+      "submodules": Object {
+        "cdk8s-plus-32.k8s": Object {},
+      },
+      "targets": Object {
+        "dotnet": Object {
+          "namespace": "Org.Cdk8s.Plus32",
+          "packageId": "Org.Cdk8s.Plus32",
+        },
+        "go": Object {
+          "moduleName": "github.com/cdk8s-team/cdk8s-plus-go",
+        },
+        "java": Object {
+          "maven": Object {
+            "artifactId": "cdk8s-plus-32",
+            "groupId": "org.cdk8s",
+          },
+          "package": "org.cdk8s.plus32",
+        },
+        "js": Object {
+          "npm": "cdk8s-plus-32",
+        },
+        "python": Object {
+          "distName": "cdk8s-plus-32",
+          "module": "cdk8s_plus_32",
+        },
+      },
+    },
     "constructs": Object {
       "targets": Object {
         "dotnet": Object {
@@ -4615,6 +4700,7 @@ def check_type(argname: str, value: object, expected_type: typing.Any) -> typing
                 typeguard.check_type(value=value, expected_type=expected_type, collection_check_strategy=typeguard.CollectionCheckStrategy.ALL_ITEMS) # type:ignore
 
 import cdk8s._jsii
+import cdk8s_plus_32._jsii
 import constructs._jsii
 
 __jsii_assembly__ = jsii.JSIIAssembly.load(
@@ -4664,6 +4750,34 @@ Object {
         "python": Object {
           "distName": "cdk8s",
           "module": "cdk8s",
+        },
+      },
+    },
+    "cdk8s-plus-32": Object {
+      "submodules": Object {
+        "cdk8s-plus-32.k8s": Object {},
+      },
+      "targets": Object {
+        "dotnet": Object {
+          "namespace": "Org.Cdk8s.Plus32",
+          "packageId": "Org.Cdk8s.Plus32",
+        },
+        "go": Object {
+          "moduleName": "github.com/cdk8s-team/cdk8s-plus-go",
+        },
+        "java": Object {
+          "maven": Object {
+            "artifactId": "cdk8s-plus-32",
+            "groupId": "org.cdk8s",
+          },
+          "package": "org.cdk8s.plus32",
+        },
+        "js": Object {
+          "npm": "cdk8s-plus-32",
+        },
+        "python": Object {
+          "distName": "cdk8s-plus-32",
+          "module": "cdk8s_plus_32",
         },
       },
     },
@@ -4950,6 +5064,34 @@ Object {
         "python": Object {
           "distName": "cdk8s",
           "module": "cdk8s",
+        },
+      },
+    },
+    "cdk8s-plus-32": Object {
+      "submodules": Object {
+        "cdk8s-plus-32.k8s": Object {},
+      },
+      "targets": Object {
+        "dotnet": Object {
+          "namespace": "Org.Cdk8s.Plus32",
+          "packageId": "Org.Cdk8s.Plus32",
+        },
+        "go": Object {
+          "moduleName": "github.com/cdk8s-team/cdk8s-plus-go",
+        },
+        "java": Object {
+          "maven": Object {
+            "artifactId": "cdk8s-plus-32",
+            "groupId": "org.cdk8s",
+          },
+          "package": "org.cdk8s.plus32",
+        },
+        "js": Object {
+          "npm": "cdk8s-plus-32",
+        },
+        "python": Object {
+          "distName": "cdk8s-plus-32",
+          "module": "cdk8s_plus_32",
         },
       },
     },
@@ -5363,6 +5505,7 @@ def check_type(argname: str, value: object, expected_type: typing.Any) -> typing
                 typeguard.check_type(value=value, expected_type=expected_type, collection_check_strategy=typeguard.CollectionCheckStrategy.ALL_ITEMS) # type:ignore
 
 import cdk8s._jsii
+import cdk8s_plus_32._jsii
 import constructs._jsii
 
 __jsii_assembly__ = jsii.JSIIAssembly.load(
@@ -5412,6 +5555,34 @@ Object {
         "python": Object {
           "distName": "cdk8s",
           "module": "cdk8s",
+        },
+      },
+    },
+    "cdk8s-plus-32": Object {
+      "submodules": Object {
+        "cdk8s-plus-32.k8s": Object {},
+      },
+      "targets": Object {
+        "dotnet": Object {
+          "namespace": "Org.Cdk8s.Plus32",
+          "packageId": "Org.Cdk8s.Plus32",
+        },
+        "go": Object {
+          "moduleName": "github.com/cdk8s-team/cdk8s-plus-go",
+        },
+        "java": Object {
+          "maven": Object {
+            "artifactId": "cdk8s-plus-32",
+            "groupId": "org.cdk8s",
+          },
+          "package": "org.cdk8s.plus32",
+        },
+        "js": Object {
+          "npm": "cdk8s-plus-32",
+        },
+        "python": Object {
+          "distName": "cdk8s-plus-32",
+          "module": "cdk8s_plus_32",
         },
       },
     },
@@ -5698,6 +5869,34 @@ Object {
         "python": Object {
           "distName": "cdk8s",
           "module": "cdk8s",
+        },
+      },
+    },
+    "cdk8s-plus-32": Object {
+      "submodules": Object {
+        "cdk8s-plus-32.k8s": Object {},
+      },
+      "targets": Object {
+        "dotnet": Object {
+          "namespace": "Org.Cdk8s.Plus32",
+          "packageId": "Org.Cdk8s.Plus32",
+        },
+        "go": Object {
+          "moduleName": "github.com/cdk8s-team/cdk8s-plus-go",
+        },
+        "java": Object {
+          "maven": Object {
+            "artifactId": "cdk8s-plus-32",
+            "groupId": "org.cdk8s",
+          },
+          "package": "org.cdk8s.plus32",
+        },
+        "js": Object {
+          "npm": "cdk8s-plus-32",
+        },
+        "python": Object {
+          "distName": "cdk8s-plus-32",
+          "module": "cdk8s_plus_32",
         },
       },
     },
@@ -17590,6 +17789,7 @@ def check_type(argname: str, value: object, expected_type: typing.Any) -> typing
                 typeguard.check_type(value=value, expected_type=expected_type, collection_check_strategy=typeguard.CollectionCheckStrategy.ALL_ITEMS) # type:ignore
 
 import cdk8s._jsii
+import cdk8s_plus_32._jsii
 import constructs._jsii
 
 __jsii_assembly__ = jsii.JSIIAssembly.load(
@@ -17639,6 +17839,34 @@ Object {
         "python": Object {
           "distName": "cdk8s",
           "module": "cdk8s",
+        },
+      },
+    },
+    "cdk8s-plus-32": Object {
+      "submodules": Object {
+        "cdk8s-plus-32.k8s": Object {},
+      },
+      "targets": Object {
+        "dotnet": Object {
+          "namespace": "Org.Cdk8s.Plus32",
+          "packageId": "Org.Cdk8s.Plus32",
+        },
+        "go": Object {
+          "moduleName": "github.com/cdk8s-team/cdk8s-plus-go",
+        },
+        "java": Object {
+          "maven": Object {
+            "artifactId": "cdk8s-plus-32",
+            "groupId": "org.cdk8s",
+          },
+          "package": "org.cdk8s.plus32",
+        },
+        "js": Object {
+          "npm": "cdk8s-plus-32",
+        },
+        "python": Object {
+          "distName": "cdk8s-plus-32",
+          "module": "cdk8s_plus_32",
         },
       },
     },
@@ -25562,6 +25790,34 @@ Object {
         },
       },
     },
+    "cdk8s-plus-32": Object {
+      "submodules": Object {
+        "cdk8s-plus-32.k8s": Object {},
+      },
+      "targets": Object {
+        "dotnet": Object {
+          "namespace": "Org.Cdk8s.Plus32",
+          "packageId": "Org.Cdk8s.Plus32",
+        },
+        "go": Object {
+          "moduleName": "github.com/cdk8s-team/cdk8s-plus-go",
+        },
+        "java": Object {
+          "maven": Object {
+            "artifactId": "cdk8s-plus-32",
+            "groupId": "org.cdk8s",
+          },
+          "package": "org.cdk8s.plus32",
+        },
+        "js": Object {
+          "npm": "cdk8s-plus-32",
+        },
+        "python": Object {
+          "distName": "cdk8s-plus-32",
+          "module": "cdk8s_plus_32",
+        },
+      },
+    },
     "constructs": Object {
       "targets": Object {
         "dotnet": Object {
@@ -28067,6 +28323,7 @@ def check_type(argname: str, value: object, expected_type: typing.Any) -> typing
                 typeguard.check_type(value=value, expected_type=expected_type, collection_check_strategy=typeguard.CollectionCheckStrategy.ALL_ITEMS) # type:ignore
 
 import cdk8s._jsii
+import cdk8s_plus_32._jsii
 import constructs._jsii
 
 __jsii_assembly__ = jsii.JSIIAssembly.load(
@@ -28116,6 +28373,34 @@ Object {
         "python": Object {
           "distName": "cdk8s",
           "module": "cdk8s",
+        },
+      },
+    },
+    "cdk8s-plus-32": Object {
+      "submodules": Object {
+        "cdk8s-plus-32.k8s": Object {},
+      },
+      "targets": Object {
+        "dotnet": Object {
+          "namespace": "Org.Cdk8s.Plus32",
+          "packageId": "Org.Cdk8s.Plus32",
+        },
+        "go": Object {
+          "moduleName": "github.com/cdk8s-team/cdk8s-plus-go",
+        },
+        "java": Object {
+          "maven": Object {
+            "artifactId": "cdk8s-plus-32",
+            "groupId": "org.cdk8s",
+          },
+          "package": "org.cdk8s.plus32",
+        },
+        "js": Object {
+          "npm": "cdk8s-plus-32",
+        },
+        "python": Object {
+          "distName": "cdk8s-plus-32",
+          "module": "cdk8s_plus_32",
         },
       },
     },
@@ -29731,6 +30016,34 @@ Object {
         },
       },
     },
+    "cdk8s-plus-32": Object {
+      "submodules": Object {
+        "cdk8s-plus-32.k8s": Object {},
+      },
+      "targets": Object {
+        "dotnet": Object {
+          "namespace": "Org.Cdk8s.Plus32",
+          "packageId": "Org.Cdk8s.Plus32",
+        },
+        "go": Object {
+          "moduleName": "github.com/cdk8s-team/cdk8s-plus-go",
+        },
+        "java": Object {
+          "maven": Object {
+            "artifactId": "cdk8s-plus-32",
+            "groupId": "org.cdk8s",
+          },
+          "package": "org.cdk8s.plus32",
+        },
+        "js": Object {
+          "npm": "cdk8s-plus-32",
+        },
+        "python": Object {
+          "distName": "cdk8s-plus-32",
+          "module": "cdk8s_plus_32",
+        },
+      },
+    },
     "constructs": Object {
       "targets": Object {
         "dotnet": Object {
@@ -30141,6 +30454,7 @@ def check_type(argname: str, value: object, expected_type: typing.Any) -> typing
                 typeguard.check_type(value=value, expected_type=expected_type, collection_check_strategy=typeguard.CollectionCheckStrategy.ALL_ITEMS) # type:ignore
 
 import cdk8s._jsii
+import cdk8s_plus_32._jsii
 import constructs._jsii
 
 __jsii_assembly__ = jsii.JSIIAssembly.load(
@@ -30190,6 +30504,34 @@ Object {
         "python": Object {
           "distName": "cdk8s",
           "module": "cdk8s",
+        },
+      },
+    },
+    "cdk8s-plus-32": Object {
+      "submodules": Object {
+        "cdk8s-plus-32.k8s": Object {},
+      },
+      "targets": Object {
+        "dotnet": Object {
+          "namespace": "Org.Cdk8s.Plus32",
+          "packageId": "Org.Cdk8s.Plus32",
+        },
+        "go": Object {
+          "moduleName": "github.com/cdk8s-team/cdk8s-plus-go",
+        },
+        "java": Object {
+          "maven": Object {
+            "artifactId": "cdk8s-plus-32",
+            "groupId": "org.cdk8s",
+          },
+          "package": "org.cdk8s.plus32",
+        },
+        "js": Object {
+          "npm": "cdk8s-plus-32",
+        },
+        "python": Object {
+          "distName": "cdk8s-plus-32",
+          "module": "cdk8s_plus_32",
         },
       },
     },
