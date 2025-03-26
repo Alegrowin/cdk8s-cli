@@ -2,7 +2,6 @@ import * as path from 'path';
 import { CodeMaker } from 'codemaker';
 import * as fs from 'fs-extra';
 import { ImportSpec } from '../../src/config';
-import { K8sSpecialType } from '../../src/import/codegen';
 import { ImportK8sManifest, safeParseManifest } from '../../src/import/manifest';
 
 describe('ImportK8sManifest', () => {
@@ -322,16 +321,6 @@ metadata:
       expect(getTypeFromSchema('v1', 'NonExistentType', 'spec.field'))
         .toBeUndefined();
 
-      // Now test the detectSpecialType method which uses getTypeFromSchema
-      const detectSpecialType = (importer as any).detectSpecialType.bind(importer);
-
-      // Test with a field that should be a Quantity
-      const quantityType = detectSpecialType('apps/v1', 'Deployment', 'spec.template.spec.containers[0].resources.limits.cpu', '100m');
-      expect(quantityType).toBe(K8sSpecialType.QUANTITY);
-
-      // Test with a field that should be an IntOrString
-      const intOrStringType = detectSpecialType('v1', 'Service', 'spec.ports[0].targetPort', 8080);
-      expect(intOrStringType).toBe(K8sSpecialType.INT_OR_STRING);
     });
 
     it('tests IntOrString types from schema for ServicePort.targetPort and HTTPGetAction.port', () => {
@@ -340,31 +329,15 @@ metadata:
 
       // Access the private methods using type assertion
       const getTypeFromSchema = (importer as any).getTypeFromSchema.bind(importer);
-      const detectSpecialType = (importer as any).detectSpecialType.bind(importer);
 
       // Test ServicePort.targetPort with different values
       expect(getTypeFromSchema('v1', 'Service', 'spec.ports[0].targetPort'))
         .toBe('io.k8s.apimachinery.pkg.util.intstr.IntOrString');
 
-      // Test with numeric value
-      const targetPortNumericType = detectSpecialType('v1', 'Service', 'spec.ports[0].targetPort', 8080);
-      expect(targetPortNumericType).toBe(K8sSpecialType.INT_OR_STRING);
-
-      // Test with string value (named port)
-      const targetPortStringType = detectSpecialType('v1', 'Service', 'spec.ports[0].targetPort', 'http');
-      expect(targetPortStringType).toBe(K8sSpecialType.INT_OR_STRING);
-
       // Test HTTPGetAction.port with different values
       expect(getTypeFromSchema('v1', 'Pod', 'spec.containers[0].livenessProbe.httpGet.port'))
         .toBe('io.k8s.apimachinery.pkg.util.intstr.IntOrString');
 
-      // Test with numeric value
-      const httpGetPortNumericType = detectSpecialType('v1', 'Pod', 'spec.containers[0].livenessProbe.httpGet.port', 8080);
-      expect(httpGetPortNumericType).toBe(K8sSpecialType.INT_OR_STRING);
-
-      // Test with string value (named port)
-      const httpGetPortStringType = detectSpecialType('v1', 'Pod', 'spec.containers[0].livenessProbe.httpGet.port', 'http');
-      expect(httpGetPortStringType).toBe(K8sSpecialType.INT_OR_STRING);
     });
 
     it('tests formatValue handles IntOrString types correctly', () => {
@@ -395,10 +368,6 @@ metadata:
       // Create a test instance
       const importer = new ImportK8sManifest(manifestContent);
 
-      // Mock the detectSpecialType method to verify field paths
-      const detectSpecialTypeMock = jest.fn().mockReturnValue(K8sSpecialType.NONE);
-      (importer as any).detectSpecialType = detectSpecialTypeMock;
-
       // Access the private formatValue method using type assertion
       const formatValue = (importer as any).formatValue.bind(importer);
 
@@ -410,15 +379,6 @@ metadata:
 
       formatValue(arrayValue, 'v1', 'Pod', 'spec.containers');
 
-      // Verify that detectSpecialType was called with the correct field paths including array indices
-      expect(detectSpecialTypeMock).toHaveBeenCalledWith('v1', 'Pod', 'spec.containers[0]', expect.any(Object));
-      expect(detectSpecialTypeMock).toHaveBeenCalledWith('v1', 'Pod', 'spec.containers[1]', expect.any(Object));
-
-      // Verify that detectSpecialType was called with the correct field paths for nested properties
-      expect(detectSpecialTypeMock).toHaveBeenCalledWith('v1', 'Pod', 'spec.containers[0].name', 'container1');
-      expect(detectSpecialTypeMock).toHaveBeenCalledWith('v1', 'Pod', 'spec.containers[0].image', 'nginx');
-      expect(detectSpecialTypeMock).toHaveBeenCalledWith('v1', 'Pod', 'spec.containers[1].name', 'container2');
-      expect(detectSpecialTypeMock).toHaveBeenCalledWith('v1', 'Pod', 'spec.containers[1].image', 'redis');
     });
 
     it('tests formatValue correctly handles multiline strings', () => {
@@ -654,23 +614,6 @@ app.max_connections=100`;
         return (importer as any).generateTypeScript.call(importer, code, 'k8s-manifest', {});
       };
 
-      // Mock the detectSpecialType method to return hardcoded values for testing
-
-      // Replace the detectSpecialType method with a mock implementation
-      (importer as any).detectSpecialType = jest.fn().mockImplementation(
-        (_apiVersion: string, _kind: string, fieldPath: string, _value: any) => {
-          // For testing purposes only - hardcoded special cases
-          if (fieldPath.includes('cpu') || fieldPath.includes('memory')) {
-            return K8sSpecialType.QUANTITY;
-          }
-
-          if (fieldPath.includes('targetPort')) {
-            return K8sSpecialType.INT_OR_STRING;
-          }
-
-          return K8sSpecialType.NONE;
-        },
-      );
       const code = new CodeMaker();
 
       // Set up the mock implementation before generating code
