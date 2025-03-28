@@ -3,7 +3,7 @@ import Ajv from 'ajv';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { JSONSchema4 } from 'json-schema';
 import { SafeReviver } from '../reviver';
-import { safeParseJson } from '../util';
+import { safeParseJson, download } from '../util';
 
 
 /**
@@ -69,4 +69,25 @@ export function safeParseJsonSchema(text: string): JSONSchema4 {
   const ajv = new Ajv();
   ajv.compile(schema);
   return schema;
+}
+
+/**
+ * Downloads and parses a Kubernetes schema for the specified API version
+ * @param apiVersion The Kubernetes API version (e.g., '1.32.0')
+ * @returns The parsed Kubernetes schema
+ */
+export async function downloadSchema(apiVersion: string): Promise<JSONSchema4> {
+  const url = `https://raw.githubusercontent.com/cdk8s-team/cdk8s/master/kubernetes-schemas/v${apiVersion}/_definitions.json`;
+  let output;
+  try {
+    output = await download(url);
+  } catch (e) {
+    console.error(`Could not find a schema for k8s version ${apiVersion}. The current list of available schemas is at https://github.com/cdk8s-team/cdk8s/tree/master/kubernetes-schemas.`);
+    throw e;
+  }
+  try {
+    return safeParseJsonSchema(output) as JSONSchema4;
+  } catch (e) {
+    throw new Error(`Unable to parse schema at ${url}: ${e}`);
+  }
 }

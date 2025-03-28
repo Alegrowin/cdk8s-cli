@@ -1,9 +1,13 @@
 import * as path from 'path';
 import { CodeMaker, toPascalCase } from 'codemaker';
 import * as fs from 'fs-extra';
+// we just need the types from json-schema
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { JSONSchema4 } from 'json-schema';
 import * as yaml from 'yaml';
 import { ImportBase, GenerateOptions } from './base';
 import { ImportSpec } from '../config';
+import { downloadSchema } from './k8s-util';
 
 /**
  * Represents a Kubernetes manifest object definition
@@ -38,7 +42,6 @@ export interface ImportK8sManifestOptions {
  * Imports Kubernetes manifests into cdk8s constructs
  */
 export class ImportK8sManifest extends ImportBase {
-
   /**
    * Creates a new instance of ImportK8sManifest from an import spec
    */
@@ -121,13 +124,21 @@ export class ImportK8sManifest extends ImportBase {
       k8sApiVersion: argv.k8sApiVersion || '1.32.0',
     };
   }
+
+  private readonly options: ImportK8sManifestOptions = { source: '' };
   private readonly objects: K8sManifestObjectDefinition[] = [];
+
+  private schema?: JSONSchema4;
+
   /**
    * Creates a new instance of ImportK8sManifest from a manifest content string
    */
-  constructor(manifestContent: string) {
+  constructor(manifestContent: string, options?: ImportK8sManifestOptions) {
     super();
     this.objects = safeParseManifest(manifestContent);
+    if (options) {
+      this.options = options;
+    }
   }
   /**
    * Returns the module names for the imported manifests
@@ -140,6 +151,9 @@ export class ImportK8sManifest extends ImportBase {
    * Generates TypeScript code for the imported manifests
    */
   protected async generateTypeScript(code: CodeMaker, _moduleName: string, options: GenerateOptions) {
+    // Download the schema once
+    this.schema = await downloadSchema(this.options.k8sApiVersion || '1.32.0');
+
     // Import cdk8s-plus-32 for Kubernetes constructs
     code.line("import * as cp32 from 'cdk8s-plus-32';");
     code.line();
@@ -435,11 +449,10 @@ export class ImportK8sManifest extends ImportBase {
         [key: string]: any;
       }
 
-      interface K8sSchema {
-        definitions: Record<string, SchemaDefinition>;
-      }
 
-      const schema = fs.readJSONSync(schemaPath) as K8sSchema;
+      if (!this.schema?.definitions) {
+        return undefined;
+      }
 
       // Extract group and version from apiVersion
       let group = '';
@@ -456,7 +469,7 @@ export class ImportK8sManifest extends ImportBase {
       let resourceDefinition: SchemaDefinition | undefined;
 
       // Search through all definitions to find the one with matching group-version-kind
-      for (const [_defName, definition] of Object.entries(schema.definitions)) {
+      for (const [_defName, definition] of Object.entries(this.schema.definitions)) {
         const gvk = definition['x-kubernetes-group-version-kind'];
         if (gvk) {
           for (const entry of gvk) {
@@ -465,7 +478,7 @@ export class ImportK8sManifest extends ImportBase {
               entry.version === version &&
               (group === '' ? !entry.group || entry.group === 'core' : entry.group === group)
             ) {
-              resourceDefinition = definition;
+              resourceDefinition = definition as unknown as SchemaDefinition;
               break;
             }
           }
@@ -505,7 +518,7 @@ export class ImportK8sManifest extends ImportBase {
               // Follow the reference
               const refPath = arrayProp.items.$ref;
               const refName = refPath.replace('#/definitions/', '');
-              currentDef = schema.definitions[refName];
+              currentDef = this.schema.definitions[refName] as SchemaDefinition;
             } else if (arrayProp.items.type === 'string' || arrayProp.items.type === 'number') {
               // For primitive arrays, return the type
               return arrayProp.items.type === 'string' ? 'string' : 'number';
@@ -538,7 +551,7 @@ export class ImportK8sManifest extends ImportBase {
               const refPath = currentDef.additionalProperties.$ref;
               if (refPath) {
                 const refName = refPath.replace('#/definitions/', '');
-                currentDef = schema.definitions[refName];
+                currentDef = this.schema.definitions[refName] as SchemaDefinition;
                 continue;
               }
             }
@@ -586,7 +599,7 @@ export class ImportK8sManifest extends ImportBase {
           if (prop.$ref) {
             const refPath = prop.$ref;
             const refName = refPath.replace('#/definitions/', '');
-            currentDef = schema.definitions[refName];
+            currentDef = this.schema.definitions[refName] as SchemaDefinition;
           } else {
             currentDef = prop;
           }
@@ -601,8 +614,8 @@ export class ImportK8sManifest extends ImportBase {
       // For additionalProperties (like in resources.limits), check the value type
       if ('additionalProperties' in currentDef) {
         if (currentDef.additionalProperties &&
-            '$ref' in currentDef.additionalProperties &&
-            currentDef.additionalProperties.$ref) {
+          '$ref' in currentDef.additionalProperties &&
+          currentDef.additionalProperties.$ref) {
           return currentDef.additionalProperties.$ref.replace('#/definitions/', '');
         }
       }
@@ -614,9 +627,12 @@ export class ImportK8sManifest extends ImportBase {
 
       // Check if this is a special type by its name
       // This handles cases where we've followed a reference to a special type
-      const defName = Object.keys(schema.definitions).find(name =>
-        schema.definitions[name] === currentDef,
-      );
+      let defName: string | undefined;
+      if (this.schema && this.schema.definitions) {
+        defName = Object.keys(this.schema.definitions).find(name =>
+          this.schema!.definitions![name] === currentDef,
+        );
+      }
 
       if (defName) {
         return defName;

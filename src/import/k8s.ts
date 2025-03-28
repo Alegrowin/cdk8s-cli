@@ -7,9 +7,8 @@ import { JSONSchema4 } from 'json-schema';
 import { TypeGenerator } from 'json2jsii';
 import { GenerateOptions, ImportBase } from './base';
 import { ApiObjectDefinition, emitHeader, generateConstruct, getPropsTypeName, getTypeName } from './codegen';
-import { parseApiTypeName, safeParseJsonSchema } from './k8s-util';
 import { ImportSpec } from '../config';
-import { download } from '../util';
+import { parseApiTypeName, downloadSchema } from './k8s-util';
 
 
 export const DEFAULT_API_VERSION = '1.25.0';
@@ -169,19 +168,3 @@ export interface GroupVersionKind {
 }
 
 const X_GROUP_VERSION_KIND = 'x-kubernetes-group-version-kind';
-
-async function downloadSchema(apiVersion: string) {
-  const url = `https://raw.githubusercontent.com/cdk8s-team/cdk8s/master/kubernetes-schemas/v${apiVersion}/_definitions.json`;
-  let output;
-  try {
-    output = await download(url);
-  } catch (e) {
-    console.error(`Could not find a schema for k8s version ${apiVersion}. The current list of available schemas is at https://github.com/cdk8s-team/cdk8s/tree/master/kubernetes-schemas.`);
-    throw e;
-  }
-  try {
-    return safeParseJsonSchema(output) as JSONSchema4;
-  } catch (e) {
-    throw new Error(`Unable to parse schema at ${url}: ${e}`);
-  }
-}

@@ -2,6 +2,7 @@ import * as path from 'path';
 import { CodeMaker } from 'codemaker';
 import * as fs from 'fs-extra';
 import { ImportSpec } from '../../src/config';
+import { downloadSchema } from '../../src/import/k8s-util';
 import { ImportK8sManifest, safeParseManifest } from '../../src/import/manifest';
 
 describe('ImportK8sManifest', () => {
@@ -278,9 +279,11 @@ metadata:
         }
       });
     });
-    it('tests getTypeFromSchema method with real schema', () => {
+    it('tests getTypeFromSchema method with real schema', async () => {
       // Create a test instance
       const importer = new ImportK8sManifest(manifestContent);
+
+      (importer as any).schema = await downloadSchema('1.32.0');
 
       // Access the private getTypeFromSchema method using type assertion
       const getTypeFromSchema = (importer as any).getTypeFromSchema.bind(importer);
@@ -323,9 +326,10 @@ metadata:
 
     });
 
-    it('tests IntOrString types from schema for ServicePort.targetPort and HTTPGetAction.port', () => {
+    it('tests IntOrString types from schema for ServicePort.targetPort and HTTPGetAction.port', async () => {
       // Create a test instance
       const importer = new ImportK8sManifest(manifestContent);
+      (importer as any).schema = await downloadSchema('1.32.0');
 
       // Access the private methods using type assertion
       const getTypeFromSchema = (importer as any).getTypeFromSchema.bind(importer);
@@ -340,9 +344,11 @@ metadata:
 
     });
 
-    it('tests formatValue handles IntOrString types correctly', () => {
+    it('tests formatValue handles IntOrString types correctly', async () => {
       // Create a test instance
       const importer = new ImportK8sManifest(manifestContent);
+
+      (importer as any).schema = await downloadSchema('1.32.0');
 
       // Access the private formatValue method using type assertion
       const formatValue = (importer as any).formatValue.bind(importer);
