@@ -413,9 +413,8 @@ export class ImportK8sManifest extends ImportBase {
    */
   private getTypeFromSchema(apiVersion: string, kind: string, fieldPath: string): string | undefined {
     try {
-      // Load the Kubernetes schema
-      const schemaPath = path.resolve(process.cwd(), 'k8s-v1.32.0.json');
-      if (!fs.existsSync(schemaPath)) {
+      // Use the schema that was already downloaded
+      if (!this.schema) {
         return undefined;
       }
 
